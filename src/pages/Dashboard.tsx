@@ -1,8 +1,9 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Clock, FileText, Calendar, Users, CheckSquare } from 'lucide-react';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -38,10 +39,149 @@ const Dashboard = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {!isAdmin && (
+            <>
+              <Link to="/attendance">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-primary" />
+                      Attendance
+                    </CardTitle>
+                    <CardDescription>Mark your check-in/check-out</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Record your daily attendance and view history
+                    </p>
+                    <Button className="w-full">Go to Attendance</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/leave-request">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileText className="h-5 w-5 text-primary" />
+                      Request Leave
+                    </CardTitle>
+                    <CardDescription>Submit leave requests</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Apply for time off and track your requests
+                    </p>
+                    <Button className="w-full">Request Leave</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/my-attendance">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5 text-primary" />
+                      My History
+                    </CardTitle>
+                    <CardDescription>View attendance records</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Check your attendance history and stats
+                    </p>
+                    <Button className="w-full" variant="outline">View History</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/my-leave-requests">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <CheckSquare className="h-5 w-5 text-primary" />
+                      My Leaves
+                    </CardTitle>
+                    <CardDescription>Track leave status</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      View all your leave requests and their status
+                    </p>
+                    <Button className="w-full" variant="outline">View Leaves</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+            </>
+          )}
+
+          {isAdmin && (
+            <>
+              <Link to="/admin/attendance">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      Employee Attendance
+                    </CardTitle>
+                    <CardDescription>Monitor all attendance</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      View and manage employee attendance records
+                    </p>
+                    <Button className="w-full">View Attendance</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/admin/leave-requests">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileText className="h-5 w-5 text-primary" />
+                      Leave Requests
+                    </CardTitle>
+                    <CardDescription>Approve or reject leaves</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Review and manage employee leave requests
+                    </p>
+                    <Button className="w-full">Manage Requests</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Card className="shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>System Overview</CardTitle>
+                  <CardDescription>Quick statistics</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Total Employees:</span>
+                      <span className="font-bold text-foreground">24</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Present Today:</span>
+                      <span className="font-bold text-green-600">20</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Pending Leaves:</span>
+                      <span className="font-bold text-primary">3</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          )}
+
           <Card className="shadow-md hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle>Your Profile</CardTitle>
-              <CardDescription>Manage your personal information</CardDescription>
+              <CardDescription>Account information</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -62,102 +202,7 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
-
-          {isAdmin && (
-            <>
-              <Card className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>User Management</CardTitle>
-                  <CardDescription>Manage employee accounts</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    View and manage all employee accounts in the system
-                  </p>
-                  <Button className="w-full">Manage Users</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>System Settings</CardTitle>
-                  <CardDescription>Configure system preferences</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Access administrative settings and configurations
-                  </p>
-                  <Button className="w-full" variant="outline">Open Settings</Button>
-                </CardContent>
-              </Card>
-            </>
-          )}
-
-          {!isAdmin && (
-            <>
-              <Card className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>My Tasks</CardTitle>
-                  <CardDescription>View your assigned tasks</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Check your current assignments and deadlines
-                  </p>
-                  <Button className="w-full">View Tasks</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>Time Off</CardTitle>
-                  <CardDescription>Request time off</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Submit and track your time off requests
-                  </p>
-                  <Button className="w-full" variant="outline">Request Time Off</Button>
-                </CardContent>
-              </Card>
-            </>
-          )}
         </div>
-
-        <Card className="mt-6 shadow-md">
-          <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-            <CardDescription>Overview of system activity</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="text-center p-4 bg-accent rounded-lg">
-                <div className="text-3xl font-bold text-primary">
-                  {isAdmin ? '24' : '5'}
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  {isAdmin ? 'Total Employees' : 'Active Tasks'}
-                </div>
-              </div>
-              <div className="text-center p-4 bg-accent rounded-lg">
-                <div className="text-3xl font-bold text-primary">
-                  {isAdmin ? '8' : '3'}
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  {isAdmin ? 'Pending Requests' : 'Completed'}
-                </div>
-              </div>
-              <div className="text-center p-4 bg-accent rounded-lg">
-                <div className="text-3xl font-bold text-primary">
-                  {isAdmin ? '95%' : '12'}
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  {isAdmin ? 'System Health' : 'Hours This Week'}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </main>
     </div>
   );
