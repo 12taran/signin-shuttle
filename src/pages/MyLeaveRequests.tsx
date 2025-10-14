@@ -130,6 +130,8 @@ const MyLeaveRequests = () => {
         </CardContent>
       </Card>
     </div>
+    </LayoutWrapper>
+
   );
 };
 
