@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { useInventory } from '@/contexts/InventoryContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -53,16 +52,15 @@ const ViewInventory = () => {
   };
 
   return (
-    <LayoutWrapper>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Inventory</h1>
-            <p className="text-muted-foreground">View available items and submit requests</p>
-          </div>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Inventory</h1>
+          <p className="text-muted-foreground">View available items and submit requests</p>
         </div>
+      </div>
 
-        <Card>
+      <Card>
           <CardHeader>
             <CardTitle>Available Items</CardTitle>
             <CardDescription>Browse and request inventory items</CardDescription>
@@ -135,7 +133,6 @@ const ViewInventory = () => {
             )}
           </CardContent>
         </Card>
-      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
@@ -165,7 +162,7 @@ const ViewInventory = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </LayoutWrapper>
+    </div>
   );
 };
 

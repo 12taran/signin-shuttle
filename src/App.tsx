@@ -7,6 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { AttendanceProvider } from "./contexts/AttendanceContext";
 import { InventoryProvider } from "./contexts/InventoryContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AppLayout } from "./components/AppLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -39,7 +40,9 @@ const App = () => (
                 path="/dashboard" 
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <AppLayout>
+                      <Dashboard />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -47,7 +50,9 @@ const App = () => (
                 path="/attendance" 
                 element={
                   <ProtectedRoute allowedRoles={['employee']}>
-                    <AttendanceCheckIn />
+                    <AppLayout>
+                      <AttendanceCheckIn />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -55,7 +60,9 @@ const App = () => (
                 path="/leave-request" 
                 element={
                   <ProtectedRoute allowedRoles={['employee']}>
-                    <LeaveRequest />
+                    <AppLayout>
+                      <LeaveRequest />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -63,7 +70,9 @@ const App = () => (
                 path="/my-attendance" 
                 element={
                   <ProtectedRoute allowedRoles={['employee']}>
-                    <MyAttendance />
+                    <AppLayout>
+                      <MyAttendance />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -71,7 +80,9 @@ const App = () => (
                 path="/my-leave-requests" 
                 element={
                   <ProtectedRoute allowedRoles={['employee']}>
-                    <MyLeaveRequests />
+                    <AppLayout>
+                      <MyLeaveRequests />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -79,7 +90,9 @@ const App = () => (
                 path="/admin/attendance" 
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
-                    <AdminAttendance />
+                    <AppLayout>
+                      <AdminAttendance />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -87,7 +100,9 @@ const App = () => (
                 path="/admin/leave-requests" 
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
-                    <AdminLeaveRequests />
+                    <AppLayout>
+                      <AdminLeaveRequests />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -95,7 +110,9 @@ const App = () => (
                 path="/inventory" 
                 element={
                   <ProtectedRoute allowedRoles={['employee']}>
-                    <ViewInventory />
+                    <AppLayout>
+                      <ViewInventory />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />
@@ -103,7 +120,9 @@ const App = () => (
                 path="/admin/inventory" 
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
-                    <ManageInventory />
+                    <AppLayout>
+                      <ManageInventory />
+                    </AppLayout>
                   </ProtectedRoute>
                 } 
               />

@@ -1,6 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useAttendance } from '@/contexts/AttendanceContext';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -46,7 +45,7 @@ const AttendanceCheckIn = () => {
   };
 
   return (
-    <LayoutWrapper>
+    <div>
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(15px); }
@@ -305,7 +304,7 @@ const AttendanceCheckIn = () => {
           </Card>
         </div>
       </div>
-    </LayoutWrapper>
+    </div>
   );
 };
 

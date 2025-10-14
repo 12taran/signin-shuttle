@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useAttendance } from '@/contexts/AttendanceContext';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -60,14 +59,13 @@ const AdminAttendance = () => {
   const presentToday = todayRecords.filter(r => r.status !== 'absent').length;
 
   return (
-    <LayoutWrapper>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Employee Attendance</h1>
-          <p className="text-muted-foreground mt-1">Monitor all employee attendance records</p>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">Employee Attendance</h1>
+        <p className="text-muted-foreground mt-1">Monitor all employee attendance records</p>
+      </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
           <Card className="shadow-md">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Employees</CardTitle>
@@ -95,10 +93,10 @@ const AdminAttendance = () => {
                 {totalEmployees > 0 ? ((presentToday / totalEmployees) * 100).toFixed(0) : 0}%
               </div>
             </CardContent>
-          </Card>
-        </div>
+        </Card>
+      </div>
 
-        <Card className="shadow-md">
+      <Card className="shadow-md">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -156,8 +154,7 @@ const AdminAttendance = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
-    </LayoutWrapper>  
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useAttendance } from '@/contexts/AttendanceContext';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -55,8 +54,7 @@ const MyAttendance = () => {
   const attendanceRate = totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(1) : 0;
 
   return (
-    <LayoutWrapper>
-      <div className="space-y-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">My Attendance</h1>
         <p className="text-muted-foreground mt-1">View your attendance history</p>
@@ -138,7 +136,6 @@ const MyAttendance = () => {
         </CardContent>
       </Card>
     </div>
-    </LayoutWrapper>
   );
 };
 

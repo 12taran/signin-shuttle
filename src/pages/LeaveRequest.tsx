@@ -1,6 +1,5 @@
 import { useState, FormEvent } from 'react';
 import { useAttendance } from '@/contexts/AttendanceContext';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -49,7 +48,7 @@ const LeaveRequest = () => {
   };
 
   return (
-    <LayoutWrapper>
+    <div>
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(15px); }
@@ -257,7 +256,7 @@ const LeaveRequest = () => {
           </CardContent>
         </Card>
       </div>
-    </LayoutWrapper>
+    </div>
   );
 };
 

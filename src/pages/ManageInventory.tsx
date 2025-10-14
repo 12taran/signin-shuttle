@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { useInventory } from '@/contexts/InventoryContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -121,31 +120,30 @@ const ManageInventory = () => {
   };
 
   return (
-    <LayoutWrapper>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Manage Inventory</h1>
-            <p className="text-muted-foreground">Add, edit, and track inventory items</p>
-          </div>
-          <Button onClick={() => handleOpenDialog()}>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Item
-          </Button>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Manage Inventory</h1>
+          <p className="text-muted-foreground">Add, edit, and track inventory items</p>
         </div>
+        <Button onClick={() => handleOpenDialog()}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Item
+        </Button>
+      </div>
 
-        {lowStockItems.length > 0 && (
+      {lowStockItems.length > 0 && (
           <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Low Stock Alert</AlertTitle>
             <AlertDescription>
               {lowStockItems.length} item(s) have low stock (less than 10 units):{' '}
               {lowStockItems.map(item => item.name).join(', ')}
-            </AlertDescription>
-          </Alert>
-        )}
+          </AlertDescription>
+        </Alert>
+      )}
 
-        <Card>
+      <Card>
           <CardHeader>
             <CardTitle>Inventory Items</CardTitle>
             <CardDescription>Manage your inventory stock</CardDescription>
@@ -233,7 +231,6 @@ const ManageInventory = () => {
             )}
           </CardContent>
         </Card>
-      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl">
@@ -316,7 +313,7 @@ const ManageInventory = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </LayoutWrapper>
+    </div>
   );
 };
 

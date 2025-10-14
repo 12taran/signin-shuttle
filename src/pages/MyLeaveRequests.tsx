@@ -1,6 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useAttendance } from '@/contexts/AttendanceContext';
-import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Calendar } from 'lucide-react';
@@ -42,8 +41,7 @@ const MyLeaveRequests = () => {
   const rejectedCount = myRequests.filter(r => r.status === 'rejected').length;
 
   return (
-    <LayoutWrapper>
-      <div className="space-y-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">My Leave Requests</h1>
         <p className="text-muted-foreground mt-1">Track your leave request status</p>
@@ -130,8 +128,6 @@ const MyLeaveRequests = () => {
         </CardContent>
       </Card>
     </div>
-    </LayoutWrapper>
-
   );
 };
 
