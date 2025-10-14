@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, FileText, Calendar, Users, CheckSquare } from 'lucide-react';
+import { Clock, FileText, Calendar, Users, CheckSquare, Package } from 'lucide-react';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -112,6 +112,24 @@ const Dashboard = () => {
                   </CardContent>
                 </Card>
               </Link>
+
+              <Link to="/inventory">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Package className="h-5 w-5 text-primary" />
+                      Inventory
+                    </CardTitle>
+                    <CardDescription>View and request items</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Browse inventory and submit item requests
+                    </p>
+                    <Button className="w-full" variant="outline">View Inventory</Button>
+                  </CardContent>
+                </Card>
+              </Link>
             </>
           )}
 
@@ -149,6 +167,24 @@ const Dashboard = () => {
                       Review and manage employee leave requests
                     </p>
                     <Button className="w-full">Manage Requests</Button>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/admin/inventory">
+                <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Package className="h-5 w-5 text-primary" />
+                      Manage Inventory
+                    </CardTitle>
+                    <CardDescription>Add, edit, and track items</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Manage inventory stock and monitor low-stock items
+                    </p>
+                    <Button className="w-full">Manage Inventory</Button>
                   </CardContent>
                 </Card>
               </Link>

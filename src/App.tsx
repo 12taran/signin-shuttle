@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AttendanceProvider } from "./contexts/AttendanceContext";
+import { InventoryProvider } from "./contexts/InventoryContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -15,6 +16,8 @@ import MyAttendance from "./pages/MyAttendance";
 import MyLeaveRequests from "./pages/MyLeaveRequests";
 import AdminAttendance from "./pages/AdminAttendance";
 import AdminLeaveRequests from "./pages/AdminLeaveRequests";
+import ViewInventory from "./pages/ViewInventory";
+import ManageInventory from "./pages/ManageInventory";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,9 +27,10 @@ const App = () => (
     <TooltipProvider>
       <AuthProvider>
         <AttendanceProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+          <InventoryProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
             <Routes>
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
@@ -87,10 +91,27 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/inventory" 
+                element={
+                  <ProtectedRoute allowedRoles={['employee']}>
+                    <ViewInventory />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/inventory" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <ManageInventory />
+                  </ProtectedRoute>
+                } 
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+          </InventoryProvider>
         </AttendanceProvider>
       </AuthProvider>
     </TooltipProvider>
