@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AttendanceProvider } from "./contexts/AttendanceContext";
 import { InventoryProvider } from "./contexts/InventoryContext";
+import { HolidaysProvider } from "./contexts/HolidaysContext";
+import { BlogProvider } from "./contexts/BlogContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AppLayout } from "./components/AppLayout";
 import Login from "./pages/Login";
@@ -29,9 +31,11 @@ const App = () => (
       <AuthProvider>
         <AttendanceProvider>
           <InventoryProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+            <HolidaysProvider>
+              <BlogProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
             <Routes>
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
@@ -130,6 +134,8 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+              </BlogProvider>
+            </HolidaysProvider>
           </InventoryProvider>
         </AttendanceProvider>
       </AuthProvider>

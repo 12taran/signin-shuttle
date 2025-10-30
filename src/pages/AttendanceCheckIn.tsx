@@ -3,7 +3,7 @@ import { useAttendance } from '@/contexts/AttendanceContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, CheckCircle, XCircle, Calendar, User, LogIn, LogOut, AlertCircle } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, Calendar, User, LogIn, LogOut, AlertCircle, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
 
 const AttendanceCheckIn = () => {
@@ -12,14 +12,22 @@ const AttendanceCheckIn = () => {
   
   const todayRecord = getTodayAttendance();
 
-  const handleCheckIn = () => {
-    checkIn();
-    toast.success('Checked in successfully!');
+  const handleCheckIn = async () => {
+    try {
+      await checkIn();
+      toast.success('Checked in successfully with location!');
+    } catch (error) {
+      toast.error('Failed to check in. Please try again.');
+    }
   };
 
-  const handleCheckOut = () => {
-    checkOut();
-    toast.success('Checked out successfully!');
+  const handleCheckOut = async () => {
+    try {
+      await checkOut();
+      toast.success('Checked out successfully with location!');
+    } catch (error) {
+      toast.error('Failed to check out. Please try again.');
+    }
   };
 
   const formatTime = (dateString: string) => {
@@ -157,29 +165,45 @@ const AttendanceCheckIn = () => {
             <CardContent className="space-y-4">
               {todayRecord ? (
                 <>
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 scale-in">
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">Check In</p>
-                      <p className="text-3xl font-semibold text-foreground">
-                        {formatTime(todayRecord.checkIn)}
-                      </p>
-                    </div>
-                    <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                      <CheckCircle className="h-6 w-6 text-emerald-600" />
-                    </div>
-                  </div>
-
-                  {todayRecord.checkOut ? (
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 scale-in delay-100">
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 scale-in">
+                    <div className="flex items-center justify-between mb-2">
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">Check Out</p>
+                        <p className="text-sm text-muted-foreground mb-1">Check In</p>
                         <p className="text-3xl font-semibold text-foreground">
-                          {formatTime(todayRecord.checkOut)}
+                          {formatTime(todayRecord.checkIn)}
                         </p>
                       </div>
                       <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
                         <CheckCircle className="h-6 w-6 text-emerald-600" />
                       </div>
+                    </div>
+                    {todayRecord.checkInLocation && (
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground mt-2 pt-2 border-t border-gray-200">
+                        <MapPin className="h-3 w-3" />
+                        <span>Location: {todayRecord.checkInLocation.latitude.toFixed(4)}, {todayRecord.checkInLocation.longitude.toFixed(4)}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {todayRecord.checkOut ? (
+                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 scale-in delay-100">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <p className="text-sm text-muted-foreground mb-1">Check Out</p>
+                          <p className="text-3xl font-semibold text-foreground">
+                            {formatTime(todayRecord.checkOut)}
+                          </p>
+                        </div>
+                        <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                          <CheckCircle className="h-6 w-6 text-emerald-600" />
+                        </div>
+                      </div>
+                      {todayRecord.checkOutLocation && (
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground mt-2 pt-2 border-t border-gray-200">
+                          <MapPin className="h-3 w-3" />
+                          <span>Location: {todayRecord.checkOutLocation.latitude.toFixed(4)}, {todayRecord.checkOutLocation.longitude.toFixed(4)}</span>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">

@@ -9,6 +9,8 @@ export interface AttendanceRecord {
   checkOut?: string;
   date: string;
   status: 'present' | 'absent' | 'checked-in';
+  checkInLocation?: { latitude: number; longitude: number; address?: string };
+  checkOutLocation?: { latitude: number; longitude: number; address?: string };
 }
 
 export interface LeaveRequest {
@@ -25,8 +27,9 @@ export interface LeaveRequest {
 interface AttendanceContextType {
   attendanceRecords: AttendanceRecord[];
   leaveRequests: LeaveRequest[];
-  checkIn: () => void;
-  checkOut: () => void;
+  leaveBalance: number;
+  checkIn: () => Promise<void>;
+  checkOut: () => Promise<void>;
   submitLeaveRequest: (fromDate: string, toDate: string, reason: string) => void;
   approveLeave: (id: string) => void;
   rejectLeave: (id: string) => void;
@@ -106,11 +109,32 @@ const generateDummyLeaveRequests = (): LeaveRequest[] => {
   ];
 };
 
+// Helper to get location
+const getLocation = (): Promise<{ latitude: number; longitude: number }> => {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('Geolocation is not supported'));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      },
+      (error) => reject(error),
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  });
+};
+
 export const AttendanceProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>(generateDummyAttendance());
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>(generateDummyLeaveRequests());
   const [isLoading, setIsLoading] = useState(false);
+  const leaveBalance = 20; // Total annual leaves
 
   const getTodayAttendance = () => {
     const today = new Date().toISOString().split('T')[0];
@@ -127,11 +151,29 @@ export const AttendanceProvider = ({ children }: { children: ReactNode }) => {
     return leaveRequests.filter(request => request.userId === userId);
   };
 
-  const checkIn = () => {
+  const checkIn = async () => {
     if (!user) return;
     
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const location = await getLocation();
+      const today = new Date().toISOString().split('T')[0];
+      const now = new Date().toISOString();
+      
+      const newRecord: AttendanceRecord = {
+        id: `att_${Date.now()}`,
+        userId: user.id,
+        userEmail: user.email,
+        checkIn: now,
+        date: today,
+        status: 'checked-in',
+        checkInLocation: location,
+      };
+      
+      setAttendanceRecords(prev => [newRecord, ...prev]);
+    } catch (error) {
+      console.error('Failed to get location:', error);
+      // Still allow check-in without location
       const today = new Date().toISOString().split('T')[0];
       const now = new Date().toISOString();
       
@@ -145,15 +187,30 @@ export const AttendanceProvider = ({ children }: { children: ReactNode }) => {
       };
       
       setAttendanceRecords(prev => [newRecord, ...prev]);
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
-  const checkOut = () => {
+  const checkOut = async () => {
     if (!user) return;
     
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const location = await getLocation();
+      const today = new Date().toISOString().split('T')[0];
+      const now = new Date().toISOString();
+      
+      setAttendanceRecords(prev =>
+        prev.map(record =>
+          record.userId === user.id && record.date === today
+            ? { ...record, checkOut: now, status: 'present' as const, checkOutLocation: location }
+            : record
+        )
+      );
+    } catch (error) {
+      console.error('Failed to get location:', error);
+      // Still allow check-out without location
       const today = new Date().toISOString().split('T')[0];
       const now = new Date().toISOString();
       
@@ -164,8 +221,9 @@ export const AttendanceProvider = ({ children }: { children: ReactNode }) => {
             : record
         )
       );
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
   const submitLeaveRequest = (fromDate: string, toDate: string, reason: string) => {
@@ -218,6 +276,7 @@ export const AttendanceProvider = ({ children }: { children: ReactNode }) => {
       value={{
         attendanceRecords,
         leaveRequests,
+        leaveBalance,
         checkIn,
         checkOut,
         submitLeaveRequest,

@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Home, Clock, Calendar, Users, Package, LogOut, FileText, UserCog } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -9,32 +9,20 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from '@/components/ui/sidebar';
-import {
-  LayoutDashboard,
-  Clock,
-  FileText,
-  Calendar,
-  CheckSquare,
-  Package,
-  Users,
-  LogOut,
-} from 'lucide-react';
-import { Button } from './ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 const employeeItems = [
-  { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+  { title: 'Dashboard', url: '/dashboard', icon: Home },
   { title: 'Check In/Out', url: '/attendance', icon: Clock },
   { title: 'Request Leave', url: '/leave-request', icon: FileText },
   { title: 'My Attendance', url: '/my-attendance', icon: Calendar },
-  { title: 'My Leave Requests', url: '/my-leave-requests', icon: CheckSquare },
+  { title: 'My Leave Requests', url: '/my-leave-requests', icon: UserCog },
   { title: 'Inventory', url: '/inventory', icon: Package },
 ];
 
 const adminItems = [
-  { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+  { title: 'Dashboard', url: '/dashboard', icon: Home },
   { title: 'Employee Attendance', url: '/admin/attendance', icon: Users },
   { title: 'Leave Requests', url: '/admin/leave-requests', icon: FileText },
   { title: 'Manage Inventory', url: '/admin/inventory', icon: Package },
@@ -42,35 +30,34 @@ const adminItems = [
 
 export function AppSidebar() {
   const { user, logout } = useAuth();
-  const { open } = useSidebar();
   const navigate = useNavigate();
-
-  const items = user?.role === 'admin' ? adminItems : employeeItems;
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
+  const menuItems = user?.role === 'admin' ? adminItems : employeeItems;
+
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-      : 'hover:bg-accent hover:text-accent-foreground';
+      ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
+      : 'text-sidebar-foreground hover:bg-sidebar-accent/80 hover:text-sidebar-accent-foreground';
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="none" className="border-r border-sidebar-border bg-sidebar">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-semibold">
-            {open && 'Employee Management'}
+          <SidebarGroupLabel className="text-sidebar-foreground text-lg font-bold px-4 py-6">
+            SignIn Shuttle
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-5 w-5" />
                       <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
@@ -84,8 +71,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton onClick={handleLogout} className="text-destructive hover:bg-destructive/10">
-                  <LogOut className="h-4 w-4" />
+                <SidebarMenuButton 
+                  onClick={handleLogout}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent/80 hover:text-sidebar-accent-foreground"
+                >
+                  <LogOut className="h-5 w-5" />
                   <span>Logout</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
