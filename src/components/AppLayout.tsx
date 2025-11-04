@@ -3,6 +3,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { useAuth } from '@/contexts/AuthContext';
 import { Badge } from './ui/badge';
+import { NotificationBell } from './NotificationBell';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -19,7 +20,8 @@ export function AppLayout({ children }: AppLayoutProps) {
           <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="flex h-14 items-center gap-4 px-4">
               <div className="flex-1" />
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                <NotificationBell />
                 <span className="text-sm text-muted-foreground">{user?.email}</span>
                 <Badge variant={user?.role === 'admin' ? 'default' : 'secondary'} className="capitalize">
                   {user?.role}

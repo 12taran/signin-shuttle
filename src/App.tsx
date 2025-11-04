@@ -8,6 +8,7 @@ import { AttendanceProvider } from "./contexts/AttendanceContext";
 import { InventoryProvider } from "./contexts/InventoryContext";
 import { HolidaysProvider } from "./contexts/HolidaysContext";
 import { BlogProvider } from "./contexts/BlogContext";
+import { NotificationsProvider } from "./contexts/NotificationsContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AppLayout } from "./components/AppLayout";
 import Login from "./pages/Login";
@@ -21,18 +22,20 @@ import AdminAttendance from "./pages/AdminAttendance";
 import AdminLeaveRequests from "./pages/AdminLeaveRequests";
 import ViewInventory from "./pages/ViewInventory";
 import ManageInventory from "./pages/ManageInventory";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <AttendanceProvider>
-          <InventoryProvider>
-            <HolidaysProvider>
-              <BlogProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <AuthProvider>
+            <AttendanceProvider>
+              <InventoryProvider>
+                <HolidaysProvider>
+                  <BlogProvider>
+                    <NotificationsProvider>
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
@@ -130,17 +133,28 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/notifications" 
+                element={
+                  <ProtectedRoute>
+                    <AppLayout>
+                      <Notifications />
+                    </AppLayout>
+                  </ProtectedRoute>
+                } 
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
-              </BlogProvider>
-            </HolidaysProvider>
-          </InventoryProvider>
-        </AttendanceProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+                    </NotificationsProvider>
+                  </BlogProvider>
+                </HolidaysProvider>
+              </InventoryProvider>
+            </AttendanceProvider>
+          </AuthProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
 );
 
 export default App;

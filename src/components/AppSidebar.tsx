@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, Clock, Calendar, Users, Package, LogOut, FileText, UserCog } from 'lucide-react';
+import { Home, Clock, Calendar, Users, Package, LogOut, FileText, UserCog, Bell } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -19,6 +19,7 @@ const employeeItems = [
   { title: 'My Attendance', url: '/my-attendance', icon: Calendar },
   { title: 'My Leave Requests', url: '/my-leave-requests', icon: UserCog },
   { title: 'Inventory', url: '/inventory', icon: Package },
+  { title: 'Notifications', url: '/notifications', icon: Bell },
 ];
 
 const adminItems = [
@@ -26,6 +27,7 @@ const adminItems = [
   { title: 'Employee Attendance', url: '/admin/attendance', icon: Users },
   { title: 'Leave Requests', url: '/admin/leave-requests', icon: FileText },
   { title: 'Manage Inventory', url: '/admin/inventory', icon: Package },
+  { title: 'Notifications', url: '/notifications', icon: Bell },
 ];
 
 export function AppSidebar() {
