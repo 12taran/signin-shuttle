@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Users, CalendarCheck, Clock, Calendar, FileText, Plus, Trash2 } from 'lucide-react';
+import { Users, CalendarCheck, Clock, Calendar, FileText, Plus, Trash2, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -60,119 +60,156 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back, {user?.email}</p>
+    <div className="space-y-8 pb-8">
+      {/* Header Section */}
+      <div className="space-y-2">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground">Dashboard</h1>
+        <p className="text-lg text-muted-foreground">Welcome back, <span className="font-medium text-foreground">{user?.email}</span></p>
       </div>
 
+      {/* Stats Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {isAdmin ? (
           <>
             <DashboardCard title="System Overview" description="Quick statistics" icon={Users}>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Total Employees:</span>
-                  <span className="font-bold text-foreground">24</span>
+              <div className="space-y-3 mt-2">
+                <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <span className="text-sm text-muted-foreground">Total Employees</span>
+                  <span className="text-2xl font-bold text-foreground">24</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Present Today:</span>
-                  <span className="font-bold text-green-600">20</span>
+                <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <span className="text-sm text-muted-foreground">Present Today</span>
+                  <span className="text-2xl font-bold text-green-600">20</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Pending Leaves:</span>
-                  <span className="font-bold text-primary">3</span>
+                <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <span className="text-sm text-muted-foreground">Pending Leaves</span>
+                  <span className="text-2xl font-bold text-primary">3</span>
                 </div>
               </div>
             </DashboardCard>
 
             <DashboardCard title="Attendance Summary" description="Today's attendance" icon={CalendarCheck}>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">On Time:</span>
-                  <span className="font-bold text-green-600">18</span>
+              <div className="space-y-3 mt-2">
+                <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <span className="text-sm text-muted-foreground">On Time</span>
+                  <span className="text-2xl font-bold text-green-600">18</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Late:</span>
-                  <span className="font-bold text-amber-600">2</span>
+                <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <span className="text-sm text-muted-foreground">Late</span>
+                  <span className="text-2xl font-bold text-amber-600">2</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Absent:</span>
-                  <span className="font-bold text-destructive">4</span>
+                <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <span className="text-sm text-muted-foreground">Absent</span>
+                  <span className="text-2xl font-bold text-destructive">4</span>
                 </div>
               </div>
             </DashboardCard>
           </>
         ) : (
           <DashboardCard title="Leave Balance" description="Your annual leave status" icon={Calendar}>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Total Leaves:</span>
-                <span className="font-bold text-foreground">{leaveBalance} days</span>
+            <div className="space-y-4 mt-2">
+              <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                <span className="text-sm text-muted-foreground">Total Leaves</span>
+                <span className="text-2xl font-bold text-foreground">{leaveBalance}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Used:</span>
-                <span className="font-bold text-amber-600">{usedLeaves} days</span>
+              <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                <span className="text-sm text-muted-foreground">Used</span>
+                <span className="text-2xl font-bold text-amber-600">{usedLeaves}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Remaining:</span>
-                <span className="font-bold text-green-600">{remainingLeaves} days</span>
+              <div className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 transition-colors">
+                <span className="text-sm text-muted-foreground">Remaining</span>
+                <span className="text-2xl font-bold text-green-600">{remainingLeaves}</span>
               </div>
-              <div className="w-full bg-muted rounded-full h-2 mt-2">
-                <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${(usedLeaves / leaveBalance) * 100}%` }} />
+              <div className="w-full bg-muted rounded-full h-3 mt-4">
+                <div 
+                  className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500 ease-out" 
+                  style={{ width: `${(usedLeaves / leaveBalance) * 100}%` }} 
+                />
               </div>
+              <p className="text-xs text-center text-muted-foreground mt-2">
+                {((usedLeaves / leaveBalance) * 100).toFixed(0)}% utilized
+              </p>
             </div>
           </DashboardCard>
         )}
 
         <DashboardCard title="Your Profile" description="Account information" icon={Users}>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Email:</span>
-              <span className="font-medium text-sm">{user?.email}</span>
+          <div className="space-y-3 mt-2">
+            <div className="flex flex-col gap-1 p-2 rounded-md hover:bg-muted/50 transition-colors">
+              <span className="text-xs text-muted-foreground uppercase tracking-wide">Email</span>
+              <span className="font-medium text-sm text-foreground break-all">{user?.email}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Role:</span>
-              <span className="font-medium capitalize">{user?.role}</span>
+            <div className="flex flex-col gap-1 p-2 rounded-md hover:bg-muted/50 transition-colors">
+              <span className="text-xs text-muted-foreground uppercase tracking-wide">Role</span>
+              <span className="font-semibold capitalize text-foreground">{user?.role}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Status:</span>
-              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
+            <div className="flex flex-col gap-1 p-2 rounded-md hover:bg-muted/50 transition-colors">
+              <span className="text-xs text-muted-foreground uppercase tracking-wide">Status</span>
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 w-fit">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 animate-pulse" />
+                Active
+              </Badge>
             </div>
           </div>
         </DashboardCard>
       </div>
 
       {/* Holidays Section */}
-      <Card>
-        <CardHeader>
+      <Card className="border-2 shadow-sm hover:shadow-md transition-shadow">
+        <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              <CardTitle>Company Holidays 2025</CardTitle>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Calendar className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">Company Holidays 2025</CardTitle>
+                <CardDescription className="mt-1">Upcoming company holidays for the year</CardDescription>
+              </div>
             </div>
             {isAdmin && (
               <Dialog open={isHolidayDialogOpen} onOpenChange={setIsHolidayDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button size="sm"><Plus className="h-4 w-4 mr-2" />Add Holiday</Button>
+                  <Button size="sm" className="shadow-sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Holiday
+                  </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="sm:max-w-[500px]">
                   <DialogHeader>
-                    <DialogTitle>Add New Holiday</DialogTitle>
+                    <DialogTitle className="text-2xl">Add New Holiday</DialogTitle>
                     <DialogDescription>Add a new company holiday to the calendar</DialogDescription>
                   </DialogHeader>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="holiday-name">Holiday Name</Label>
-                      <Input id="holiday-name" value={newHoliday.name} onChange={(e) => setNewHoliday({ ...newHoliday, name: e.target.value })} placeholder="e.g., Christmas" />
+                  <div className="space-y-5 py-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="holiday-name" className="text-sm font-medium">Holiday Name</Label>
+                      <Input 
+                        id="holiday-name" 
+                        value={newHoliday.name} 
+                        onChange={(e) => setNewHoliday({ ...newHoliday, name: e.target.value })} 
+                        placeholder="e.g., Christmas" 
+                        className="h-11"
+                      />
                     </div>
-                    <div>
-                      <Label htmlFor="holiday-date">Date</Label>
-                      <Input id="holiday-date" type="date" value={newHoliday.date} onChange={(e) => setNewHoliday({ ...newHoliday, date: e.target.value })} />
+                    <div className="space-y-2">
+                      <Label htmlFor="holiday-date" className="text-sm font-medium">Date</Label>
+                      <Input 
+                        id="holiday-date" 
+                        type="date" 
+                        value={newHoliday.date} 
+                        onChange={(e) => setNewHoliday({ ...newHoliday, date: e.target.value })} 
+                        className="h-11"
+                      />
                     </div>
-                    <div>
-                      <Label htmlFor="holiday-description">Description (optional)</Label>
-                      <Input id="holiday-description" value={newHoliday.description} onChange={(e) => setNewHoliday({ ...newHoliday, description: e.target.value })} placeholder="Holiday description" />
+                    <div className="space-y-2">
+                      <Label htmlFor="holiday-description" className="text-sm font-medium">Description (optional)</Label>
+                      <Input 
+                        id="holiday-description" 
+                        value={newHoliday.description} 
+                        onChange={(e) => setNewHoliday({ ...newHoliday, description: e.target.value })} 
+                        placeholder="Holiday description" 
+                        className="h-11"
+                      />
                     </div>
                   </div>
                   <DialogFooter>
@@ -183,21 +220,32 @@ const Dashboard = () => {
               </Dialog>
             )}
           </div>
-          <CardDescription>Upcoming company holidays for the year</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {holidays.map((holiday) => (
-              <div key={holiday.id} className="p-3 border rounded-lg bg-card hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <p className="font-semibold text-foreground">{holiday.name}</p>
-                    <p className="text-sm text-muted-foreground">{new Date(holiday.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-                    {holiday.description && <p className="text-xs text-muted-foreground mt-1">{holiday.description}</p>}
+              <div 
+                key={holiday.id} 
+                className="group relative p-4 border-2 rounded-xl bg-gradient-to-br from-card to-muted/20 hover:shadow-lg hover:scale-105 transition-all duration-200"
+              >
+                <div className="flex justify-between items-start gap-2">
+                  <div className="flex-1 space-y-1">
+                    <p className="font-semibold text-foreground text-base leading-tight">{holiday.name}</p>
+                    <p className="text-sm font-medium text-primary">
+                      {new Date(holiday.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </p>
+                    {holiday.description && (
+                      <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{holiday.description}</p>
+                    )}
                   </div>
                   {isAdmin && (
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => deleteHoliday(holiday.id)}>
-                      <Trash2 className="h-3 w-3 text-destructive" />
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity" 
+                      onClick={() => deleteHoliday(holiday.id)}
+                    >
+                      <Trash2 className="h-3.5 w-3.5 text-destructive" />
                     </Button>
                   )}
                 </div>
@@ -208,30 +256,51 @@ const Dashboard = () => {
       </Card>
 
       {/* Blog Section */}
-      <Card>
-        <CardHeader>
+      <Card className="border-2 shadow-sm hover:shadow-md transition-shadow">
+        <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <FileText className="h-5 w-5 text-primary" />
-              <CardTitle>Company Blog</CardTitle>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <FileText className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">Company Blog</CardTitle>
+                <CardDescription className="mt-1">Latest updates and announcements</CardDescription>
+              </div>
             </div>
             <Dialog open={isPostDialogOpen} onOpenChange={setIsPostDialogOpen}>
               <DialogTrigger asChild>
-                <Button size="sm"><Plus className="h-4 w-4 mr-2" />New Post</Button>
+                <Button size="sm" className="shadow-sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Post
+                </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                  <DialogTitle>Create New Post</DialogTitle>
+                  <DialogTitle className="text-2xl">Create New Post</DialogTitle>
                   <DialogDescription>Share your thoughts with the team</DialogDescription>
                 </DialogHeader>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="post-title">Title</Label>
-                    <Input id="post-title" value={newPost.title} onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} placeholder="Post title" />
+                <div className="space-y-5 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="post-title" className="text-sm font-medium">Title</Label>
+                    <Input 
+                      id="post-title" 
+                      value={newPost.title} 
+                      onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} 
+                      placeholder="Post title" 
+                      className="h-11"
+                    />
                   </div>
-                  <div>
-                    <Label htmlFor="post-content">Content</Label>
-                    <Textarea id="post-content" value={newPost.content} onChange={(e) => setNewPost({ ...newPost, content: e.target.value })} placeholder="Write your post here..." rows={5} />
+                  <div className="space-y-2">
+                    <Label htmlFor="post-content" className="text-sm font-medium">Content</Label>
+                    <Textarea 
+                      id="post-content" 
+                      value={newPost.content} 
+                      onChange={(e) => setNewPost({ ...newPost, content: e.target.value })} 
+                      placeholder="Write your post here..." 
+                      rows={6}
+                      className="resize-none"
+                    />
                   </div>
                 </div>
                 <DialogFooter>
@@ -241,25 +310,39 @@ const Dashboard = () => {
               </DialogContent>
             </Dialog>
           </div>
-          <CardDescription>Latest updates and announcements</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {posts.slice(0, 5).map((post) => (
-              <div key={post.id} className="p-4 border rounded-lg bg-card hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{post.content}</p>
-                    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-                      <span>By {post.author}</span>
-                      <span>•</span>
-                      <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+              <div 
+                key={post.id} 
+                className="group relative p-5 border-2 rounded-xl bg-gradient-to-br from-card to-muted/20 hover:shadow-lg hover:border-primary/20 transition-all duration-200"
+              >
+                <div className="flex justify-between items-start gap-4">
+                  <div className="flex-1 space-y-2">
+                    <h3 className="font-semibold text-lg text-foreground leading-tight">{post.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{post.content}</p>
+                    <div className="flex items-center gap-3 pt-1">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                          <span className="text-xs font-semibold text-primary">{post.author[0].toUpperCase()}</span>
+                        </div>
+                        <span className="font-medium">{post.author}</span>
+                      </div>
+                      <span className="text-muted-foreground">•</span>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </span>
                     </div>
                   </div>
                   {(isAdmin || post.authorEmail === user?.email) && (
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => deletePost(post.id)}>
-                      <Trash2 className="h-3 w-3 text-destructive" />
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" 
+                      onClick={() => deletePost(post.id)}
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   )}
                 </div>
